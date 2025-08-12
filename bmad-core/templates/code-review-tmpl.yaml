@@ -1,0 +1,270 @@
+template:
+  id: code-review-template-v1
+  name: Code Review Report
+  version: 1.0
+  output:
+    format: markdown
+    filename: docs/reviews/code-review-{{story_num}}-{{review_date}}.md
+    title: "Code Review: {{story_title}} - {{review_date}}"
+
+workflow:
+  mode: interactive
+  elicitation: advanced-elicitation
+
+agent_config:
+  owner: code-reviewer
+  editors: [code-reviewer]
+
+sections:
+  - id: introduction
+    instruction: |
+      This template guides creation of a comprehensive Technical Code Review Report.
+      The code reviewer should evaluate the technical implementation focusing on:
+      - Code quality, security, performance, and architecture compliance
+      - Technical debt assessment and improvement opportunities
+      - Standards compliance and best practices adherence
+
+  - id: review-metadata
+    title: Review Metadata
+    instruction: |
+      Document the basic information about this code review session.
+    sections:
+      - id: review-date
+        title: Review Date
+        template: "{{review_date}}"
+        instruction: Current date of the review
+
+      - id: reviewer
+        title: Reviewed By
+        template: "Alex (Lead Code Quality Engineer)"
+        instruction: Name and role of the code reviewer
+
+      - id: story-reference
+        title: Story Reference
+        template: "Story {{epic_num}}.{{story_num}}: {{story_title}}"
+        instruction: Reference to the story being reviewed
+
+      - id: files-reviewed
+        title: Files Reviewed
+        type: bullet-list
+        instruction: |
+          List all files that were reviewed during this code review session:
+        template: |
+          - {{file_path}} - {{change_type}} ({{lines_changed}} lines)
+          - {{file_path}} - {{change_type}} ({{lines_changed}} lines)
+
+  - id: technical-quality-assessment
+    title: Technical Quality Assessment
+    instruction: |
+      Provide an overall assessment of the technical implementation quality.
+      Rate each category and provide specific findings.
+    sections:
+      - id: overall-rating
+        title: Overall Code Quality
+        type: choice
+        choices: [Excellent, Good, Acceptable, Needs Improvement, Poor]
+        instruction: Overall technical quality rating based on comprehensive analysis
+
+      - id: code-structure
+        title: Code Structure & Design
+        instruction: |
+          Evaluate adherence to software engineering principles:
+          - Single Responsibility Principle
+          - Open/Closed Principle  
+          - Dependency Injection
+          - DRY Principle
+          - Proper abstraction levels
+        template: |
+          **Rating**: {{structure_rating}}
+          **Findings**:
+          {{structure_findings}}
+
+      - id: readability-maintainability
+        title: Readability & Maintainability
+        instruction: |
+          Assess how readable and maintainable the code is:
+          - Clear naming conventions
+          - Self-documenting code
+          - Appropriate comments
+          - Logical organization
+        template: |
+          **Rating**: {{readability_rating}}
+          **Findings**:
+          {{readability_findings}}
+
+  - id: security-analysis
+    title: Security Analysis
+    instruction: |
+      Comprehensive security review focusing on common vulnerabilities and secure coding practices.
+    sections:
+      - id: input-validation
+        title: Input Validation
+        template: "**Status**: [✓/✗/N/A] **Findings**: {{input_validation_findings}}"
+        instruction: Check for proper input sanitization and validation
+
+      - id: authentication-authorization
+        title: Authentication & Authorization
+        template: "**Status**: [✓/✗/N/A] **Findings**: {{auth_findings}}"
+        instruction: Verify proper access controls and authentication mechanisms
+
+      - id: data-protection
+        title: Data Protection
+        template: "**Status**: [✓/✗/N/A] **Findings**: {{data_protection_findings}}"
+        instruction: Check encryption, sensitive data handling, and privacy compliance
+
+      - id: injection-prevention
+        title: Injection Attack Prevention
+        template: "**Status**: [✓/✗/N/A] **Findings**: {{injection_findings}}"
+        instruction: Verify protection against SQL injection, XSS, command injection
+
+      - id: secrets-management
+        title: Secrets Management
+        template: "**Status**: [✓/✗/N/A] **Findings**: {{secrets_findings}}"
+        instruction: Ensure no hardcoded credentials, proper secrets handling
+
+  - id: performance-analysis
+    title: Performance Analysis
+    instruction: |
+      Evaluate performance implications and optimization opportunities.
+    sections:
+      - id: algorithm-efficiency
+        title: Algorithm Efficiency
+        template: "**Status**: [✓/✗/N/A] **Findings**: {{algorithm_findings}}"
+        instruction: Assess time and space complexity, algorithm choices
+
+      - id: database-optimization
+        title: Database Optimization
+        template: "**Status**: [✓/✗/N/A] **Findings**: {{database_findings}}"
+        instruction: Review query efficiency, indexing, N+1 problems
+
+      - id: caching-strategy
+        title: Caching Strategy
+        template: "**Status**: [✓/✗/N/A] **Findings**: {{caching_findings}}"
+        instruction: Evaluate caching implementation and opportunities
+
+      - id: resource-management
+        title: Resource Management
+        template: "**Status**: [✓/✗/N/A] **Findings**: {{resource_findings}}"
+        instruction: Check for memory leaks, proper cleanup, connection handling
+
+      - id: scalability
+        title: Scalability Considerations
+        template: "**Status**: [✓/✗/N/A] **Findings**: {{scalability_findings}}"
+        instruction: Assess ability to handle increased load
+
+  - id: architecture-compliance
+    title: Architecture Compliance
+    instruction: |
+      Verify adherence to established architectural patterns and project structure.
+    sections:
+      - id: design-patterns
+        title: Design Patterns
+        template: "**Status**: [✓/✗] **Findings**: {{patterns_findings}}"
+        instruction: Check proper use of design patterns, avoid anti-patterns
+
+      - id: project-structure
+        title: Project Structure
+        template: "**Status**: [✓/✗] **Findings**: {{structure_compliance_findings}}"
+        instruction: Verify file organization follows project conventions
+
+      - id: integration-points
+        title: Integration Points
+        template: "**Status**: [✓/✗] **Findings**: {{integration_findings}}"
+        instruction: Check external service integrations, API usage
+
+      - id: dependency-management
+        title: Dependency Management
+        template: "**Status**: [✓/✗] **Findings**: {{dependency_findings}}"
+        instruction: Evaluate dependency choices, versions, security
+
+  - id: technical-improvements-made
+    title: Technical Improvements Made
+    instruction: |
+      Document any direct code improvements made during the review process.
+      As a lead code reviewer, list specific refactoring and enhancements performed.
+    type: bullet-list
+    template: |
+      - **File**: {{improved_file}}
+        - **Improvement**: {{improvement_description}}
+        - **Rationale**: {{technical_rationale}}
+        - **Impact**: {{quality_impact}}
+
+  - id: technical-debt-identified
+    title: Technical Debt Identified
+    instruction: |
+      List technical debt items that require future attention, prioritized by impact.
+    sections:
+      - id: high-priority-debt
+        title: High Priority Technical Debt
+        type: bullet-list
+        instruction: Critical technical debt that should be addressed immediately
+        template: |
+          - [ ] {{debt_description}} - **Impact**: {{debt_impact}}
+
+      - id: medium-priority-debt
+        title: Medium Priority Technical Debt
+        type: bullet-list
+        instruction: Important improvements that should be planned for future sprints
+        template: |
+          - [ ] {{debt_description}} - **Impact**: {{debt_impact}}
+
+      - id: low-priority-debt
+        title: Low Priority Technical Debt
+        type: bullet-list
+        instruction: Nice-to-have improvements for future consideration
+        template: |
+          - [ ] {{debt_description}} - **Impact**: {{debt_impact}}
+
+  - id: standards-compliance
+    title: Standards Compliance
+    instruction: |
+      Verify adherence to coding standards and team conventions.
+    sections:
+      - id: coding-standards
+        title: Coding Standards
+        template: "**Status**: [✓/✗] **Findings**: {{coding_standards_findings}}"
+        instruction: Check compliance with team coding standards
+
+      - id: naming-conventions
+        title: Naming Conventions
+        template: "**Status**: [✓/✗] **Findings**: {{naming_findings}}"
+        instruction: Verify consistent naming conventions
+
+      - id: documentation-standards
+        title: Documentation Standards
+        template: "**Status**: [✓/✗] **Findings**: {{documentation_findings}}"
+        instruction: Check code comments and documentation completeness
+
+  - id: recommendations
+    title: Recommendations for Future Development
+    instruction: |
+      Provide actionable recommendations for ongoing improvement and future development.
+    type: bullet-list
+    template: |
+      - {{recommendation_description}}
+      - {{recommendation_description}}
+
+  - id: final-assessment
+    title: Final Technical Assessment
+    instruction: |
+      Provide the final decision on the technical quality of the implementation.
+    type: choice
+    choices: ["✓ Code Quality Approved - Ready for QA Testing", "✗ Technical Issues Require Resolution"]
+    template: |
+      **Decision**: {{final_decision}}
+      
+      **Summary**: {{final_summary}}
+
+  - id: qa-handoff-notes
+    title: Notes for QA Agent
+    instruction: |
+      Provide technical context and guidance for the QA agent's functional testing phase.
+    template: |
+      **Technical Context for QA Testing**:
+      {{qa_context}}
+      
+      **Areas Requiring Special Attention**:
+      {{qa_focus_areas}}
+      
+      **Performance Considerations for Testing**:
+      {{performance_test_notes}}

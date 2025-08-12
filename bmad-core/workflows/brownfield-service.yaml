@@ -84,6 +84,19 @@ workflow:
         - Updates File List with all changes
         - Marks story as "Review" when complete
 
+    - agent: code-reviewer
+      action: technical_code_review
+      updates: implementation_files
+      requires: implementation_files
+      optional: true
+      notes: |
+        OPTIONAL: Code Reviewer Agent (New Chat): @code-reviewer → review
+        - Technical code quality review
+        - Security, performance, architecture analysis
+        - Direct code improvements for technical issues
+        - Updates story "Code Review Results" section
+        - Passes to QA for functional testing
+
     - agent: qa
       action: review_implementation
       updates: implementation_files
@@ -91,24 +104,25 @@ workflow:
       optional: true
       notes: |
         OPTIONAL: QA Agent (New Chat): @qa → review-story
+        - Functional testing and acceptance criteria validation
         - Senior dev review with refactoring ability
         - Fixes small issues directly
         - Leaves checklist for remaining items
         - Updates story status (Review → Done or stays Review)
 
     - agent: dev
-      action: address_qa_feedback
+      action: address_feedback
       updates: implementation_files
-      condition: qa_left_unchecked_items
+      condition: code_reviewer_or_qa_left_unchecked_items
       notes: |
-        If QA left unchecked items:
+        If Code Reviewer or QA left unchecked items:
         - Dev Agent (New Chat): Address remaining items
-        - Return to QA for final approval
+        - Return to appropriate reviewer for final approval
 
     - repeat_development_cycle:
       action: continue_for_all_stories
       notes: |
-        Repeat story cycle (SM → Dev → QA) for all epic stories
+        Repeat story cycle (SM → Dev → Code Reviewer → QA) for all epic stories
         Continue until all stories in PRD are complete
 
     - agent: po
@@ -147,13 +161,18 @@ workflow:
         J -->|Yes| K[analyst/pm: review & approve story]
         J -->|No| L[dev: implement story]
         K --> L
-        L --> M{QA review?}
-        M -->|Yes| N[qa: review implementation]
-        M -->|No| O{More stories?}
-        N --> P{QA found issues?}
-        P -->|Yes| Q[dev: address QA feedback]
+        L --> M{Code review?}
+        M -->|Yes| M1[code-reviewer: technical review]
+        M -->|No| N{QA review?}
+        M1 --> M2{Code reviewer found issues?}
+        M2 -->|Yes| Q[dev: address feedback]
+        M2 -->|No| N
+        N -->|Yes| N1[qa: functional review]
+        N -->|No| O{More stories?}
+        N1 --> P{QA found issues?}
+        P -->|Yes| Q
         P -->|No| O
-        Q --> N
+        Q --> M
         O -->|Yes| I
         O -->|No| R{Epic retrospective?}
         R -->|Yes| S[po: epic retrospective]
@@ -167,7 +186,8 @@ workflow:
         style C fill:#FFE4B5
         style D fill:#FFE4B5
         style K fill:#F0E68C
-        style N fill:#F0E68C
+        style M1 fill:#F0E68C
+        style N1 fill:#F0E68C
         style S fill:#F0E68C
     ```
 

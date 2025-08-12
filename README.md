@@ -19,9 +19,9 @@ Foundations in Agentic Agile Driven Development, known as the Breakthrough Metho
 
 **1. Agentic Planning:** Dedicated agents (Analyst, PM, Architect) collaborate with you to create detailed, consistent PRDs and Architecture documents. Through advanced prompt engineering and human-in-the-loop refinement, these planning agents produce comprehensive specifications that go far beyond generic AI task generation.
 
-**2. Context-Engineered Development:** The Scrum Master agent then transforms these detailed plans into hyper-detailed development stories that contain everything the Dev agent needs - full context, implementation details, and architectural guidance embedded directly in story files.
+**2. Context-Engineered Development:** The Scrum Master agent transforms these detailed plans into hyper-detailed development stories. The enhanced development workflow includes dedicated technical code review (Code Reviewer agent) before functional testing (QA agent), ensuring both technical quality and functional correctness.
 
-This two-phase approach eliminates both **planning inconsistency** and **context loss** - the biggest problems in AI-assisted development. Your Dev agent opens a story file with complete understanding of what to build, how to build it, and why.
+This two-phase approach eliminates both **planning inconsistency** and **context loss** - the biggest problems in AI-assisted development. Your development agents receive complete understanding of what to build, how to build it, and why, with comprehensive quality assurance at each step.
 
 **📖 [See the complete workflow in the User Guide](docs/user-guide.md)** - Planning phase, development cycle, and all agent roles
 
@@ -32,9 +32,9 @@ This two-phase approach eliminates both **planning inconsistency** and **context
 **Before diving in, review these critical workflow diagrams that explain how BMad works:**
 
 1. **[Planning Workflow (Web UI)](docs/user-guide.md#the-planning-workflow-web-ui)** - How to create PRD and Architecture documents
-2. **[Core Development Cycle (IDE)](docs/user-guide.md#the-core-development-cycle-ide)** - How SM, Dev, and QA agents collaborate through story files
+2. **[Core Development Cycle (IDE)](docs/user-guide.md#the-core-development-cycle-ide)** - How SM, Dev, Code Reviewer, and QA agents collaborate through story files
 
-> ⚠️ **These diagrams explain 90% of BMad Method Agentic Agile flow confusion** - Understanding the PRD+Architecture creation and the SM/Dev/QA workflow and how agents pass notes through story files is essential - and also explains why this is NOT taskmaster or just a simple task runner!
+> ⚠️ **These diagrams explain 90% of BMad Method Agentic Agile flow confusion** - Understanding the PRD+Architecture creation and the SM/Dev/Code Reviewer/QA workflow and how agents pass notes through story files is essential - and also explains why this is NOT taskmaster or just a simple task runner!
 
 ### What would you like to do?
 

@@ -8,6 +8,10 @@ agents:
   - pm
   - architect
   - po
+  - sm
+  - dev
+  - code-reviewer
+  - qa
 workflows:
   - greenfield-service.yaml
   - brownfield-service.yaml

@@ -204,16 +204,21 @@ graph TD
     G --> H["Dev: Complete story Tasks"]
     H --> I["Dev: Mark Ready for Review"]
     I --> J{"User Verification"}
-    J -->|Request QA Review| K["QA: Run review-story task"]
-    J -->|Approve Without QA| M["Mark Story as Done"]
-    K --> L{"QA Review Results"}
-    L -->|Needs Work| G
-    L -->|Approved| M["Mark Story as Done"]
+    J -->|Request Code Review| K["Code Reviewer: Run code-quality-review task"]
+    J -->|Skip Code Review| L["QA: Run review-story task"]  
+    K --> K1{"Code Review Results"}
+    K1 -->|Needs Work| G
+    K1 -->|Approved| L["QA: Run review-story task"]
+    L -->|Approve Without QA| M["Mark Story as Done"]
+    L --> L1{"QA Review Results"}
+    L1 -->|Needs Work| G
+    L1 -->|Approved| M["Mark Story as Done"]
     J -->|Needs Fixes| G
     M --> E
 
     style M fill:#34a853,color:#fff
-    style K fill:#f9ab00,color:#fff
+    style K fill:#1e90ff,color:#fff
+    style L fill:#f9ab00,color:#fff
 ```
 
-This cycle continues, with the Scrum Master, Developer, and optionally QA agents working together. The QA agent provides senior developer review capabilities through the `review-story` task, offering code refactoring, quality improvements, and knowledge transfer. This ensures high code quality while maintaining development velocity.
+This cycle continues, with the Scrum Master, Developer, Code Reviewer, and QA agents working together. The Code Reviewer agent provides technical code quality analysis through the `code-quality-review` task, focusing on security, performance, and architecture compliance. The QA agent then provides functional testing and senior developer review capabilities through the `review-story` task. This two-stage review process ensures both technical excellence and functional correctness while maintaining development velocity.

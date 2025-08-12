@@ -6,5 +6,6 @@ agents:
   - po
   - sm
   - dev
+  - code-reviewer
   - qa
 workflows: null

@@ -83,7 +83,7 @@ Once planning is complete and documents are sharded, BMad follows a structured d
 
 ```mermaid
 graph TD
-    A["Development Phase Start"] --> B["SM: Reviews Previous Story Dev/QA Notes"]
+    A["Development Phase Start"] --> B["SM: Reviews Previous Story Dev/Code Review/QA Notes"]
     B --> B2["SM: Drafts Next Story from Sharded Epic + Architecture"]
     B2 --> B3{"PO: Validate Story Draft (Optional)"}
     B3 -->|Validation Requested| B4["PO: Validate Story Against Artifacts"]
@@ -95,16 +95,20 @@ graph TD
     E --> F["Dev: Run All Validations"]
     F --> G["Dev: Mark Ready for Review + Add Notes"]
     G --> H{"User Verification"}
-    H -->|Request QA Review| I["QA: Senior Dev Review + Active Refactoring"]
-    H -->|Approve Without QA| M["IMPORTANT: Verify All Regression Tests and Linting are Passing"]
-    I --> J["QA: Review, Refactor Code, Add Tests, Document Notes"]
-    J --> L{"QA Decision"}
+    H -->|Request Code Review| I["Code Reviewer: Technical Quality Analysis"]
+    H -->|Skip Code Review| J["QA: Senior Dev Review + Active Refactoring"] 
+    I --> I1{"Code Review Decision"}
+    I1 -->|Needs Dev Work| D
+    I1 -->|Approved| J["QA: Senior Dev Review + Active Refactoring"]
+    H -->|Approve Without Review| M["IMPORTANT: Verify All Regression Tests and Linting are Passing"]
+    J --> K["QA: Review, Refactor Code, Add Tests, Document Notes"]
+    K --> L{"QA Decision"}
     L -->|Needs Dev Work| D
     L -->|Approved| M
     H -->|Needs Fixes| D
     M --> N["IMPORTANT: COMMIT YOUR CHANGES BEFORE PROCEEDING!"]
-    N --> K["Mark Story as Done"]
-    K --> B
+    N --> O["Mark Story as Done"]
+    O --> B
 
     style A fill:#f5f5f5,color:#000
     style B fill:#e8f5e9,color:#000
@@ -117,12 +121,14 @@ graph TD
     style F fill:#e3f2fd,color:#000
     style G fill:#e3f2fd,color:#000
     style H fill:#e3f2fd,color:#000
-    style I fill:#f9ab00,color:#fff
-    style J fill:#ffd54f,color:#000
-    style K fill:#34a853,color:#fff
+    style I fill:#1e90ff,color:#fff
+    style I1 fill:#87ceeb,color:#000
+    style J fill:#f9ab00,color:#fff
+    style K fill:#ffd54f,color:#000
     style L fill:#e3f2fd,color:#000
     style M fill:#ff5722,color:#fff
     style N fill:#d32f2f,color:#fff
+    style O fill:#34a853,color:#fff
 ```
 
 ## Installation
